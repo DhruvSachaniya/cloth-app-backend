@@ -7,6 +7,7 @@ const config = require('./config/config');
 
 const authRoutes = require('./router/authRoutes');
 const ProductRoutes = require('./router/ProductRoutes');
+const CartRoutes = require('./router/CartRoutes');
 const indexRoute = require('./router/indexRoute');
 
 app.use(express.json());
@@ -23,7 +24,8 @@ mongoose.connect(config.mongoURI, {
 });
 
 app.use('/', indexRoute,
-            ProductRoutes
+            ProductRoutes,
+            CartRoutes
 );
 app.use('/auth', authRoutes);
 

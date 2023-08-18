@@ -52,3 +52,19 @@ exports.getallproducts = async (req, res) => {
         res.send(error);
     }
 };
+
+exports.productinfo = async (req, res) => {
+    try {
+        const { productid } = req.body;
+
+        const findproduct = await product.findById(productid);
+        
+        if (findproduct) {
+            res.status(200).json(findproduct)
+        } else {
+            res.status(500).json({meassge: "product not found!"})
+        }
+    } catch (error) {
+        res.send(error);
+    }
+}

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const cartsschema = new mongoose.Schema({
-    userID: {
+    seller: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: "User"
     },
     items: [
         {
@@ -11,6 +11,12 @@ const cartsschema = new mongoose.Schema({
             ref: 'product'
         }
     ],
+    quntity: {
+        type: Number,
+    },
+    subtotal: {
+        type: Number,
+    },
     createdAt: Date,
 })
 
