@@ -1,33 +1,20 @@
 const product = require('../models/Products');
-const users = require('../models/User');
-const jwt = require('jsonwebtoken');
-const config = require('../config/config');
 
 exports.addProducts = async (req, res) => {
     try {
         const { title,  description, price, fileURL } = req.body;
-
-        const token = req.header('Authorization');
-
-        if(token) {
-            
-            const decoded = jwt.verify(token, config.jwtsecretkey);
+        const user = req.user.userId;
+        const newProduct = await new product({
+            title,
+            description,
+            price,
+            seller: user,
+            fileURL,
+        })
     
-            const newProduct = await new product({
-                title,
-                description,
-                price,
-                seller: decoded.userId,
-                fileURL,
-            })
+        const savedproduct = await newProduct.save();
     
-            const savedproduct = await newProduct.save();
-    
-            res.status(201).json(savedproduct);
-        } else {
-            res.status(404).json({meassge: "unathorized!"})
-        }
-
+        res.status(201).json(savedproduct);
     } catch (error) {
         res.status(501).json({meassge: "faild to add product"})
     }
@@ -36,17 +23,12 @@ exports.addProducts = async (req, res) => {
 
 exports.getallproducts = async (req, res) => {
     try {
-        const token = req.header('Authorization');
-        if(token) {
-            const allproducts = await product.find();
+        const allproducts = await product.find();
         
-            if(allproducts) {
-                res.status(200).json(allproducts);
-            } else {
-                res.status(500).json({meassge: "there is no products available"});
-            }
+        if(allproducts) {
+            res.status(200).json(allproducts);
         } else {
-            res.status(401).json({error: "unathorized!"})
+                res.status(500).json({meassge: "there is no products available"});
         }
     } catch (error) {
         res.send(error);
@@ -60,7 +42,7 @@ exports.productinfo = async (req, res) => {
         const findproduct = await product.findById(productid);
         
         if (findproduct) {
-            res.status(200).json(findproduct)
+            res.status(200).json(findproduct);
         } else {
             res.status(500).json({meassge: "product not found!"})
         }

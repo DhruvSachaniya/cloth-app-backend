@@ -1,5 +1,21 @@
-// const passport = require('passport');
+const jwt = require('jsonwebtoken');
+const config = require('../config/config');
 
-// const auth = passport.authenticate('jwt', {session: false});
+exports.auth = async (req, res, next) => {
+    try {
+        const token = req.header('Authorization');
 
-// module.exports = auth;
+        if(token) {
+            const decoded = jwt.verify(token, config.jwtsecretkey);
+
+            req.user = decoded;
+
+            next();
+            
+        } else {
+            res.status(401).json({meassage: "unathorized"});
+        }
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
