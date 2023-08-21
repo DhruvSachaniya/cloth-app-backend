@@ -15,6 +15,14 @@ const ordersschema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    shippingInfo: {
+        type: String,
+        required: true
+    },
+    paymentInfo: {
+        type: String,
+        required: true
+    },
     ordersDate: Date,
     createdDate: Date,
 });
