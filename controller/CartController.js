@@ -42,7 +42,7 @@ exports.addtoCart = async (req, res) => {
             res.status(200).json(savedcart);
         }
     } catch (error) {
-        res.send(error);
+        res.send(error);  
     }
 };
 
@@ -60,3 +60,46 @@ exports.cartinfo = async (req, res) => {
         res.status(500).json({meassage: "error!"});
     }
 }
+
+exports.cartitemdelete = async (req, res) => {
+    try {
+        const { productid } = req.body;
+        const foundproduct = await product.findById(productid);
+
+        const seller = req.user.userId;
+        const usercart = await cart.findOne({ seller });
+
+        if (usercart) {
+            if (usercart.items.length >= 1) {
+                let productAlreadyInCart = false;
+
+                for (let i = 0; i < usercart.items.length; i++) {
+                    if (usercart.items[i].toString() === productid) {
+                        console.log('yes');
+                        productAlreadyInCart = true;
+                        const removedItem = usercart.items.splice(i, 1)[0];
+                        usercart.subtotal -= foundproduct.price;
+                        break;
+                    }
+                }
+
+                if (productAlreadyInCart) {
+                    const updatecart = await usercart.save();
+                    res.status(200).json(updatecart);
+                } else {
+                    console.log('Product not found in cart');
+                    res.status(404).json({ message: 'Product not found in cart' });
+                }
+            } else {
+                console.log('Cart is empty');
+                res.status(404).json({ message: 'Cart is empty' });
+            }
+        } else {
+            console.log('No cart found');
+            res.status(404).json({ message: 'Cart not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
