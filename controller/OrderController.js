@@ -40,9 +40,28 @@ exports.orderinfo = async (req, res) => {
         if(foundorder) {
             res.status(200).json(foundorder)
         } else {
-            res.status(401).json({meassage: "order not found!"});
+            res.status(401).json({meassage: "you have no order"});
         }
     } catch (error) {
         res.status(500).json(error);
+    }
+}
+
+exports.cancelorder = async (req, res) => {
+    try {
+        const userID = req.user.userId;
+
+        const foundorder = await order.findOne({userID});
+
+        if(foundorder) {
+            const deleteorder = await order.deleteOne({userID});
+            if(deleteorder) {
+                res.status(200).json({meassage: "your order has been canceled"});
+            } else {
+                res.status(401).json({meassage: "order not found!"});
+            }
+        }
+    } catch (error) {
+        res.status(500).json(error)
     }
 }

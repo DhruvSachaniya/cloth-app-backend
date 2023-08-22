@@ -52,7 +52,11 @@ exports.cartinfo = async (req, res) => {
         const getcart = await cart.findOne({seller});
 
         if (getcart) {
-            res.status(200).json(getcart)
+            if (getcart.items.length === 0) {
+                res.status(401).json({meassage: "your cart is empty!"})
+            } else {
+                res.status(200).json(getcart)
+            }
         } else {
             res.status(500).json({meassage: "cart not found!"});
         }
