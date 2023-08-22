@@ -28,6 +28,12 @@ exports.addtoCart = async (req, res) => {
                 }
                 const updatecart = await usercart.save();
                 res.status(200).json(updatecart); 
+            } else {
+                usercart.items.push(productid);
+                usercart.subtotal += foundproduct.price;
+
+                const updatecart = await usercart.save();
+                res.status(200).json(updatecart);
             } 
         } else {
             const newcart = await new cart({
@@ -81,7 +87,7 @@ exports.cartitemdelete = async (req, res) => {
                     if (usercart.items[i].toString() === productid) {
                         console.log('yes');
                         productAlreadyInCart = true;
-                        const removedItem = usercart.items.splice(i, 1)[0];
+                        usercart.items.splice(i, 1)[0];
                         usercart.subtotal -= foundproduct.price;
                         break;
                     }

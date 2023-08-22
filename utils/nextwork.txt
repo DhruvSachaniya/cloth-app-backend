@@ -1,1 +1,3 @@
-fix the subtotal logic 
+fix the subtotal logic
+what if cart is empty and user try to checkout?
+empty cart after buying processed 

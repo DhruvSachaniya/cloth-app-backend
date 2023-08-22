@@ -9,6 +9,7 @@ const authRoutes = require('./router/authRoutes');
 const ProductRoutes = require('./router/ProductRoutes');
 const CartRoutes = require('./router/CartRoutes');
 const OrderRoutes = require('./router/OrderRoutes');
+const WishlistRoutes = require('./router/WishlistRouter');
 const indexRoute = require('./router/indexRoute');
 
 app.use(express.json());
@@ -27,7 +28,8 @@ mongoose.connect(config.mongoURI, {
 app.use('/', indexRoute,
             ProductRoutes,
             CartRoutes,
-            OrderRoutes
+            OrderRoutes,
+            WishlistRoutes
 );
 app.use('/auth', authRoutes);
 
