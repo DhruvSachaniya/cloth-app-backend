@@ -1,3 +1,8 @@
 fix the subtotal logic
 what if cart is empty and user try to checkout?
 empty cart after buying processed 
+
+// active 
+-> edituser --> username, email, password
+-> deleteacount -->
+-> fix that not use seller everywhere make it into center
