@@ -1,8 +1,12 @@
 fix the subtotal logic
 what if cart is empty and user try to checkout?
-empty cart after buying processed 
+empty cart after buying processed
+logout session implement
+add images for products
+documentation for backend 
 
 // active 
--> edituser --> username, email, password
+-> edituser --> password
 -> deleteacount -->
 -> fix that not use seller everywhere make it into center
+-> confirom all status code with stetment
