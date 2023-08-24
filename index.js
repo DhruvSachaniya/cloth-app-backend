@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const app = express();
 const bodyparser = require('body-parser');
 const morgan = require('morgan');
+const path = require('path');
 const config = require('./config/config');
 
 const authRoutes = require('./router/authRoutes');
@@ -16,6 +17,7 @@ const indexRoute = require('./router/indexRoute');
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(bodyparser.urlencoded({extended: true}))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 mongoose.connect(config.mongoURI, {
     useNewUrlParser: true,
