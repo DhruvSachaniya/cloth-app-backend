@@ -6,9 +6,8 @@ logout session implement
  
 
 // active
--> add multiple images
 -> reviews 
 -> confirom all status code with stetment
--> documentation for backend
 -> add status is product is in stock or not
 -> make product to can out of stock
+-> send email
