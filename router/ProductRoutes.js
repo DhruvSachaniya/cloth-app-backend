@@ -10,13 +10,25 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage });
+const fileFilter = (req, file, cb) => {
+    // Accept only image files
+    if (file.mimetype.startsWith('image/')) {
+        cb(null, true);
+    } else {
+        cb(new Error('Only image files are allowed!'), false);
+    }
+};
+
+const upload = multer({
+    storage: storage,
+    fileFilter: fileFilter,
+});
 
 const Productcontroller = require('../controller/ProductController');
 const { auth } = require('../middlewares/auth');
 
 router.post('/products', auth, upload.single('image'), Productcontroller.addProducts);
 router.get('/products',auth, Productcontroller.getallproducts);
-router.get('/productinfo', auth, Productcontroller.productinfo);
+router.get('/productinfo/:productid', auth, Productcontroller.productinfo);
 
 module.exports = router;

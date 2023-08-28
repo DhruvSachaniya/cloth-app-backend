@@ -1,10 +1,11 @@
 const product = require('../models/Products');
 
 exports.addProducts = async (req, res) => {
-    try {
+    try {               
         const { title,  description, price} = req.body;
         const user = req.user.userId;
         const fileURL = req.file.path;
+
 
         const newProduct = await new product({
             title,
@@ -39,7 +40,7 @@ exports.getallproducts = async (req, res) => {
 
 exports.productinfo = async (req, res) => {
     try {
-        const { productid } = req.body;
+        const { productid } = req.params;
 
         const findproduct = await product.findById(productid);
         
