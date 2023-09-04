@@ -59,7 +59,7 @@ exports.cartinfo = async (req, res) => {
 
         if (getcart) {
             if (getcart.items.length === 0) {
-                res.status(401).json({meassage: "your cart is empty!"})
+                res.status(200).json({meassage: "your cart is empty!"})
             } else {
                 res.status(200).json(getcart)
             }

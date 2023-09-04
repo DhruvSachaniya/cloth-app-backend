@@ -12,8 +12,10 @@ exports.addwishlist = async (req, res) => {
                 for (let i = 0; i< userwishlist.items.length; i++) {
                     if (userwishlist.items[i].toString() !== productid) {
                         userwishlist.items.push(productid);
+                        const updatewishlist = await userwishlist.save();
+                        res.status(200).json(updatewishlist);
                         break;
-                    }
+                    } 
                 }
 
             } else {
@@ -23,8 +25,7 @@ exports.addwishlist = async (req, res) => {
                 res.status(200).json(updatewishlist);
             }
 
-            const updatewishlist = await userwishlist.save();
-            res.status(200).json(updatewishlist);
+
         } else {
 
             const newwishlist = new wishlist({
