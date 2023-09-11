@@ -40,7 +40,7 @@ exports.orderinfo = async (req, res) => {
         if(foundorder) {
             res.status(200).json(foundorder)
         } else {
-            res.status(401).json({meassage: "you have no order"});
+            res.status(200).json({meassage: "you have no order"});
         }
     } catch (error) {
         res.status(500).json(error);
