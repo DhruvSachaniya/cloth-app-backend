@@ -9,7 +9,7 @@ exports.registerUser = async (req, res) => {
 
         const user = await User.findOne({email});
         if(user) {
-            res.status(409).json({error: "user already exits!"})
+            res.status(201).json({message: "user already exits!"})
         } else if (password.length >= 8) {
 
             const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,9 +23,9 @@ exports.registerUser = async (req, res) => {
     
             const savedUser = await newUser.save();
 
-            res.status(201).json(savedUser);
+            res.status(200).json(savedUser, {message: "Register succesfully"});
         } else {
-            res.json({error: "password length must have grater than 8!"});
+            res.status(201).json({message: "password length must have grater than 8!"});
         }
 
     } catch (error) {
@@ -41,19 +41,19 @@ try {
     const user = await User.findOne({ email });
 
     if(!user) {
-        return res.status(401).json({message: "invalid email!"})
+        return res.json({message: "invalid email!"})
     }
 
     const ispasswordValid = await bcrypt.compare(password, user.password);
 
     if(!ispasswordValid) {
-        return res.status(401).json({message: "invalid password"})
+        return res.json({message: "invalid password"})
     }
 
     const token = jwt.sign({userId: user.id}, config.jwtsecretkey , {expiresIn: '1h'});
 
-    res.json({ meassge :"login succecfully", token})
+    res.status(200).json({ message :"login succecfully", token})
 } catch (error) {
-    res.status(500).json({meassge: "Login faild!"})
+    res.status(500).json({message: "Login faild!"})
 }
 }
