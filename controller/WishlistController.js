@@ -50,7 +50,7 @@ exports.getwishlist = async (req, res) => {
 
         if(foundwishlist) {
             if (foundwishlist.items.length === 0) {
-                res.status(300).json({meassage: "you wishlist is empty!"})
+                res.status(201).json({meassage: "you wishlist is empty!"})
             } else {
                 res.status(200).json(foundwishlist);
             }
